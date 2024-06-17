@@ -1,0 +1,75 @@
+<header class="border-bottom p-0 m-0">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
+      <div class="col-12 col-md-4 mb-2 mb-md-0">
+        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+          <i class="bi bi-shop"></i> <span class="px-2">Inicio</span>
+        </a>
+      </div>
+
+      <form action="/" method="get" class="nav col-12 col-md-4 mb-2 justify-content-center mb-md-0">
+        <input type="search" name="search" class="form-control" placeholder="Buscar..." aria-label="Buscar" />
+      </form>
+
+      <div class="col-12 col-md-4 d-flex justify-content-end">
+        <% if (typeof auth !== 'undefined' && auth && auth?.username) { %>
+        <div class="dropdown">
+          <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle" />
+            <span><%= auth?.username %></span>
+          </a>
+          <ul class="dropdown-menu text-small">
+            <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li>
+              <form action="/auth/logout" method="post">
+                <button class="dropdown-item" type="submit">Sesión cerrada</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+        <% } else { %>
+        <a href="/auth/login" class="btn btn-outline-secondary me-2">
+          Iniciar sesión
+        </a>
+        <a href="/auth/create" class="btn btn-primary">Crear cuenta</a>
+        <% } %>
+
+        <% if (typeof cartIds !== 'undefined' && Array.isArray(cartIds)) { %>
+        <div class="dropdown ms-2 d-flex align-items-center">
+          <a class="nav-link dropdown-toggle" href="#" id="cartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-cart-fill"></i> Carrito
+            <% if (cartIds.length > 0) { %>
+            <span class="badge bg-danger">
+              <%= cartIds.length %>
+            </span>
+            <% } %>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
+            <% cart.forEach(function(car) { %>
+            <li class="dropdown-item">
+              <%= car.name %>
+            </li>
+            <% }); %>
+
+            <% if (cartIds.length > 1) { %>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="finalize-purchase">Finalizar compra</a></li>
+            <% } %>
+
+            <% if (cartIds.length === 0) { %>
+            <li class="dropdown-item">
+              No hay productos cargados al carrito.
+            </li>
+            <% } %>
+          </ul>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</header>
