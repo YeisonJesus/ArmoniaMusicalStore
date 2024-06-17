@@ -16,11 +16,21 @@ class HomeController {
 
       const cart = Array.isArray(req.session.cart) ? req.session.cart : [];
 
+      const favoritesIds = Array.isArray(req.session.favorites)
+        ? req.session.favorites.map((c) => c.id)
+        : [];
+
+      const favorites = Array.isArray(req.session.favorites)
+        ? req.session.favorites
+        : [];
+
       res.render("index", {
         products: results,
         auth: req.session.user,
         cartIds,
         cart,
+        favoritesIds,
+        favorites,
       });
     });
   }
@@ -84,14 +94,13 @@ class HomeController {
         return;
       }
 
-      
       Category.getAllCategories((error, results) => {
         if (error) {
           console.error("Error retrieving categories: ", error);
           res.status(500).json({ error: "Error retrieving categories" });
           return;
         }
-        
+
         const message = req.session.message?.message;
         const type = req.session.message?.type;
         req.session.message = null;
@@ -103,6 +112,21 @@ class HomeController {
           type,
         });
       });
+    });
+  }
+
+  static favorites(req, res) {
+    const favoritesIds = Array.isArray(req.session.favorites)
+      ? req.session.favorites.map((c) => c.id)
+      : [];
+
+    const favorites = Array.isArray(req.session.favorites)
+      ? req.session.favorites
+      : [];
+
+    res.render("dashboard/favorites", {
+      favoritesIds,
+      favorites,
     });
   }
 }

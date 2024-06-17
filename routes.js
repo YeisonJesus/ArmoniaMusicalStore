@@ -20,6 +20,9 @@ router.get("/dashboard/products/edit/:id", verifyAuthenticationMiddleware, HomeC
 router.post("/dashboard/products/edit/:id", verifyAuthenticationMiddleware, ProductsController.updateProduct);
 router.post("/dashboard/products/delete/:id", verifyAuthenticationMiddleware, ProductsController.deleteProduct);
 
+
+router.get("/dashboard/favorites", verifyAuthenticationMiddleware, HomeController.favorites);
+
 router.get("/auth/create", noAuthenticationMiddleware,  AuthenticatedController.formCreate);
 router.post("/auth/create", noAuthenticationMiddleware, AuthenticatedController.createUser);
 
@@ -30,6 +33,7 @@ router.post("/auth/logout", verifyAuthenticationMiddleware, AuthenticatedControl
 
 router.post("/toggle-cart", ProductsController.toggleCart);
 router.get("/finalize-purchase", verifyAuthenticationMiddleware, ProductsController.formFinalizePurchase);
+router.post("/toggle-favorites", ProductsController.toggleFavorites);
 
 router.get("/api/products", ProductsController.getAllProducts);
 router.get("/api/products/:id", ProductsController.getProductById);

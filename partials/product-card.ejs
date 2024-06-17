@@ -23,10 +23,22 @@
             </button>
             <% } %>
           </form>
-          <button type="button" class="btn btn-md btn-secondary ms-1">
-            <!-- <i class="bi bi-bookmark-heart-fill"></i> -->
-            <i class="bi bi-bookmark-heart"></i>
-          </button>
+
+          <form action="./toggle-favorites" method="post">
+            <input type="hidden" name="product_id" value="<%= product.id %>">
+            <input type="hidden" name="product_name" value="<%= product.name %>">
+            <input type="hidden" name="product_category_name" value="<%= product.category_name %>">
+            <input type="hidden" name="product_price" value="<%= product.price %>">
+            <% if (typeof favoritesIds !== 'undefined' && Array.isArray(favoritesIds) && favoritesIds.includes(product.id)) { %>
+            <button type="submit" class="btn btn-md btn-primary ms-1">
+              <i class="bi bi-bookmark-heart-fill"></i>
+            </button>
+            <% } else { %>
+            <button type="submit" class="btn btn-md btn-secondary ms-1">
+              <i class="bi bi-bookmark-heart"></i>
+            </button>
+            <% } %>
+          </form>
         </div>
         <span class="text-body-secondary">
           <%= product.price %>$

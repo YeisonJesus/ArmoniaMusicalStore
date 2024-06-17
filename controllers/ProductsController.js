@@ -155,6 +155,36 @@ class ProductsController {
     res.redirect("back");
   }
 
+  static toggleFavorites(req, res) {
+    if (isNaN(req.body.product_id)) {
+      res.redirect("back");
+    }
+
+    const product_id = Number(req.body.product_id);
+    const product_name = req.body.product_name;
+    const product_category_name = req.body.product_category_name;
+    const product_price = req.body.product_price;
+
+    let favorites = Array.isArray(req.session.favorites)
+      ? req.session.favorites
+      : [];
+    const exists = favorites.find((c) => c && c.id === product_id);
+
+    if (exists) {
+      favorites = favorites.filter((c) => c.id !== product_id);
+    } else {
+      favorites.push({
+        id: product_id,
+        name: product_name,
+        category_name: product_category_name,
+        price: Number(product_price),
+      });
+    }
+    req.session.favorites = favorites;
+
+    res.redirect("back");
+  }
+
   static formFinalizePurchase(req, res) {
     const cartIds = Array.isArray(req.session.cart)
       ? req.session.cart.map((c) => c.id)

@@ -35,7 +35,7 @@
       <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           <% products.forEach(function(product) { %>
-          <%- include('../partials/product-card', { product: product, cartIds, cart }) %>
+          <%- include('../partials/product-card', { product: product, cartIds, cart, favoritesIds, favorites }) %>
           <% }); %>
         </div>
       </div>
